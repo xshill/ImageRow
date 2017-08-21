@@ -67,6 +67,26 @@ protocol ImageRowProtocol {
     var placeholderImage: UIImage? { get }
 }
 
+//MARK: ImageViewController
+
+fileprivate class ImageViewController : UIViewController {
+    var image: UIImage? = nil
+    
+    override func viewDidLoad() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        
+        let imageView = UIImageView(image: self.image)
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(tapGesture)
+        
+        self.view = imageView
+    }
+    
+    func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
 //MARK: Row
 
 open class _ImageRow<VCType: TypedRowControllerType, Cell: CellType>: SelectorRow<Cell, VCType>, ImageRowProtocol where VCType: UIImagePickerController, VCType.RowValue == UIImage, Cell: BaseCell, Cell: TypedCellType, Cell.Value == UIImage {
@@ -145,6 +165,13 @@ open class _ImageRow<VCType: TypedRowControllerType, Cell: CellType>: SelectorRo
                 self?.imageURL = nil
                 self?.updateCell()
                 })
+            let viewPhotoOption = UIAlertAction(title: NSLocalizedString("View Photo", comment: ""), style: .default, handler: { [weak self] _ in
+                let imageViewController = ImageViewController()
+                imageViewController.image = self?.value
+                self?.cell.formViewController()?.present(imageViewController, animated: true, completion: nil)
+                })
+            
+            sourceActionSheet.addAction(viewPhotoOption)
             sourceActionSheet.addAction(clearPhotoOption)
         }
         // check if we have only one source type given
