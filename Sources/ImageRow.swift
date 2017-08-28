@@ -69,10 +69,10 @@ protocol ImageRowProtocol {
 
 //MARK: ImageViewController
 
-fileprivate class ImageViewController : UIViewController {
+public class ImageViewController : UIViewController {
     var image: UIImage? = nil
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
