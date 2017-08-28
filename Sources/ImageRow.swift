@@ -73,8 +73,9 @@ fileprivate class ImageViewController : UIViewController {
     var image: UIImage? = nil
     
     override func viewDidLoad() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        super.viewDidLoad()
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         let imageView = UIImageView(image: self.image)
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(tapGesture)
